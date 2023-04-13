@@ -1,0 +1,27 @@
+{
+  "name": "component-testing",
+  "version": "0.1.0",
+  "description": "Component testing package.",
+  "author": "adam@neuralspace.ai",
+  "scripts": {
+    "dev": "NODE_ENV=dev next dev",
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "antd": "^5.1.4",
+    "axios": "^1.3.4",
+    "next": "^13.1.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.33.0",
+    "eslint-config-next": "^13.1.6",
+    "prettier": "^2.8.4"
+  },
+  "packageManager": "yarn@3.4.1"
+}
