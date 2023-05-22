@@ -3,3 +3,5 @@ temp.jsx
 .next
 
 node_modules
+
+.DS_Store*

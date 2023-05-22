@@ -33,3 +33,25 @@
     user-select: none;
     text-align: center;
 }
+
+/* Pointer Options */
+
+.nwse {
+    cursor: nwse-resize;
+}
+
+.nesw {
+    cursor: nesw-resize;
+}
+
+.ew {
+    cursor: ew-resize;
+}
+
+.ns {
+    cursor: ns-resize;
+}
+
+.move {
+    cursor: move;
+}

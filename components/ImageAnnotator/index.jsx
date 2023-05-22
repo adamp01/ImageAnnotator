@@ -25,6 +25,7 @@ const ImageAnnotator = React.forwardRef(
 
       // Scale down image so that it fits in view nicely
       const maxWidth = canvas?.offsetWidth || 1;
+
       const imageElement = new Image();
       imageElement.src = url;
 
@@ -116,7 +117,8 @@ const ImageAnnotator = React.forwardRef(
 
     const handleMouseDown = (e) => {
       // Need to find current area
-      const area = findCurrentArea(e.pageX, e.pageY);
+      const pos = crop(e.pageX, e.pageY);
+      const area = findCurrentArea(pos.x, pos.y);
       setClickedArea(area);
 
       // If we have clicked on an existing box
@@ -147,22 +149,22 @@ const ImageAnnotator = React.forwardRef(
         x:
           imageAnnotatorRef.current && imageFrameStyle.width
             ? Math.min(
-                Math.max(
-                  Math.round(pageX - imageAnnotatorRef.current.offsetLeft),
-                  0
-                ),
-                Math.round(imageFrameStyle.width - 1)
-              )
+              Math.max(
+                Math.round(pageX - imageAnnotatorRef.current.offsetLeft),
+                0
+              ),
+              Math.round(imageFrameStyle.width - 1)
+            )
             : 0,
         y:
           imageAnnotatorRef.current && imageFrameStyle.height
             ? Math.min(
-                Math.max(
-                  Math.round(pageY - imageAnnotatorRef.current.offsetTop),
-                  0
-                ),
-                Math.round(imageFrameStyle.height - 1)
-              )
+              Math.max(
+                Math.round(pageY - imageAnnotatorRef.current.offsetTop),
+                0
+              ),
+              Math.round(imageFrameStyle.height - 1)
+            )
             : 0,
       };
     };
@@ -352,9 +354,36 @@ const ImageAnnotator = React.forwardRef(
           {boxes.map((box, i) => (
             <BBox
               key={i}
+              boxKey={i}
               type="done"
               box={box}
-              onMouseOver={() =>
+              onMouseMove={(e) => {
+                const cropped = crop(e.pageX, e.pageY);
+                const { pos } = findCurrentArea(cropped.x, cropped.y);
+
+                switch (pos) {
+                  case "i":
+                    e.target.className = styles.move;
+                    break;
+                  case "tl":
+                  case "br":
+                    e.target.className = styles.nwse;
+                    break;
+                  case "tr":
+                  case "bl":
+                    e.target.className = styles.nesw;
+                    break;
+                  case "l":
+                  case "r":
+                    e.target.className = styles.ew;
+                    break;
+                  case "t":
+                  case "b":
+                    e.target.className = styles.ns;
+                    break;
+                }
+              }}
+              onMouseOver={(e) =>
                 setBoxes((prevBoxes) =>
                   prevBoxes.map((e) =>
                     e.id === box.id ? { ...e, showCloseButton: true } : e
